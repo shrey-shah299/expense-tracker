@@ -37,7 +37,7 @@ const BalanceAdjustForm = ({ onUpdate, modes }) => {
         />
       </div>
       
-      <button className="w-full bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-3 rounded-lg font-bold transition shadow-lg active:scale-95">
+      <button className="w-full  from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white py-3 rounded-lg font-bold transition shadow-lg active:scale-95">
         Update Balance
       </button>
     </div>
