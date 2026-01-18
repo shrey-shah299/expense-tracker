@@ -1,41 +1,66 @@
 import React, { useState } from 'react';
 import { TrendingDown } from 'lucide-react';
-
-const ExpenseForm = ({ onAdd, modes }) => {
-  const [form, setForm] = useState({ amount: '', date: '', mode: modes[0] || 'Cash', note: '' });
-
-  const submit = (e) => {
+import InputBox from '../InputBox';
+import api from '../../api';
+const ExpenseForm = () => {
+  const [form, setForm] = useState({spenton: '', amount: '',month:'', mode: '', description: '' });
+  const addexpense=(formdata)=>{
+    return api.post("/addexpense",formdata)
+  }
+  const submit = async(e) => {
     e.preventDefault();
-    if (!form.amount || !form.date) return;
-    onAdd({ ...form, id: Date.now(), type: 'expense' });
-    setForm({ amount: '', date: '', mode: modes[0] || 'Cash', note: '' });
+
+    try{
+      const res = await addexpense({
+      spent: form.spenton,
+      amount: form.amount,
+      mode: form.mode,
+      month: form.month,
+      description: form.description,
+    });
+      alert("Submitted Successfully")
+      console.log(res.data);
+      
+    }
+    catch(err){
+      console.log(err);
+      alert("Submittion Failed!")
+    }
+    setForm({ spenton:'',amount: '',  month:'',  mode: '', description: '' });
+    
   };
 
   return (
-    <div className="bg-slate-800 border border-slate-700 rounded-2xl p-6 space-y-4 hover:border-slate-600 transition hover:shadow-lg">
-      <h3 className="font-bold text-white flex items-center gap-2 text-lg">
-        <TrendingDown size={20} className="text-red-400" />
-        Add Expense
-      </h3>
-      
-      <input type="number" placeholder="Amount" required className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition" 
-        value={form.amount} onChange={e => setForm({...form, amount: e.target.value})} />
-      
-      <input type="date" required className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition" 
-        value={form.date} onChange={e => setForm({...form, date: e.target.value})} />
-      
-      <select className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition cursor-pointer" 
-        value={form.mode} onChange={e => setForm({...form, mode: e.target.value})}>
-        {modes.map(m => <option key={m} value={m}>{m}</option>)}
-      </select>
-      
-      <input type="text" placeholder="Note (e.g., Lunch)" className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition" 
-        value={form.note} onChange={e => setForm({...form, note: e.target.value})} />
-      
-      <button className="w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-3 rounded-lg font-bold transition shadow-lg active:scale-95">
-        Record Expense
-      </button>
-    </div>
+    <form onSubmit={submit}>
+      <div className='space-y-4 '>
+      <InputBox title="Amount" placeholder="Amount spent" value={form.amount}  onChange={e => setForm({...form, amount: e.target.value})}/>
+      <InputBox title="SpentOn" placeholder="Where is it spent" value={form.spenton}  onChange={e => setForm({...form,spenton: e.target.value})}/>
+      <InputBox title="Month" placeholder="Current Month" value={form.month}  onChange={e => setForm({...form, month: e.target.value})}/>
+      <InputBox title="Mode" placeholder="mode of payment cash/HDFC/SBI" value={form.mode}  onChange={e => setForm({...form, mode: e.target.value})}/>
+      <div className="col-span-full">
+              <label htmlFor="about" className="block text-sm/6 font-medium text-gray-900">
+                Description
+              </label>
+              <div className="mt-2">
+                <textarea
+                  id="about"
+                  name="about"
+                  rows={3}
+                  className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                  placeholder="Introduction"
+                  value={form.description}
+                  onChange={(e) => setForm({...form,description:e.target.value})}
+                />
+              </div>
+            </div>
+      </div>
+      <button
+            type="submit"
+            className="mt-6 rounded-md bg-indigo-600 px-4 py-2 text-sm font-semibold text-white hover:bg-indigo-500">
+            Submit
+          </button>
+    </form>
+   
   );
 };
 

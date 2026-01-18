@@ -1,9 +1,11 @@
 import React from "react";
 import { Wallet, TrendingDown, PieChart, Settings, Bell, Search, Menu, X, ShoppingCart, Utensils } from "lucide-react";
-import SpendingHeatmap from "./dashboard/SpendingHeatmap";
+import SpendingHeatmap from "../components/dashboard/SpendingHeatmap";
+import Expenseadder from "./Expenseadder";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Dashboard() {
-  const [sidebarOpen, setSidebarOpen] = React.useState(true);
+  const navigate=useNavigate();
 
   const sampleTransactions = [
     { type: 'expense', date: 'Dec 28', amount: 85.50 },
@@ -13,22 +15,11 @@ function Dashboard() {
   ];
 
   return (
+    <div className="max-w-7xl mx-auto px-8 lg:px-16 py-4">
     <div className="flex h-screen bg-slate-50">
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <header className="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between shadow-sm">
-          <div className="flex items-center flex-1">
-            <div className="relative w-80">
-              <Search className="absolute left-3 top-3 text-slate-400" size={20} />
-              <input
-                type="text"
-                placeholder="Search expenses..."
-                className="w-full pl-10 pr-4 py-2 bg-slate-100 rounded-lg border border-slate-300 focus:border-red-500 focus:outline-none transition-colors text-sm"
-              />
-            </div>
-          </div>
-        </header>
 
         {/* Content Area */}
         <div className="flex-1 overflow-auto">
@@ -45,8 +36,8 @@ function Dashboard() {
                 { icon: Wallet, label: "Total Spent", value: "$3,245.50", change: "+8.2%", bgColor: "bg-red-50", textColor: "text-red-600" },
                 { icon: TrendingDown, label: "This Month", value: "$1,120.00", change: "-2.5%", bgColor: "bg-orange-50", textColor: "text-orange-600" },
                 { icon: ShoppingCart, label: "Cash", value: "8", change: "2 new", bgColor: "bg-blue-50", textColor: "text-blue-600" },
-                { icon: Utensils, label: "HDFC", value: "$456.20", change: "+15.3%", bgColor: "bg-green-50", textColor: "text-green-600" },
-                { icon: Utensils, label: "SBI", value: "$456.20", change: "+15.3%", bgColor: "bg-green-50", textColor: "text-green-600" }
+                { icon: ShoppingCart, label: "HDFC", value: "$456.20", change: "+15.3%", bgColor: "bg-green-50", textColor: "text-green-600" },
+                { icon: ShoppingCart, label: "SBI", value: "$456.20", change: "+15.3%", bgColor: "bg-green-50", textColor: "text-green-600" }
               ].map((stat, i) => (
                 <div key={i} className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow hover:-translate-y-0.5">
                   <div className="flex items-center justify-between mb-4">
@@ -71,7 +62,9 @@ function Dashboard() {
             <div className="bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-lg transition-shadow">
               <div className="p-6 border-b border-slate-200 flex items-center justify-between">
                 <h2 className="text-lg font-bold text-slate-900">Recent Expenses</h2>
-                <button className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium border-none cursor-pointer">
+                <button 
+                 onClick={() => navigate("/expenseform")}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium border-none cursor-pointer">
                   + Add Expense
                 </button>
               </div>
@@ -114,6 +107,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

@@ -32,7 +32,7 @@ const Transferform = ({ onTransfer, modes }) => {
       <input type="number" placeholder="Transfer Amount" className="w-full px-4 py-3 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 transition" 
         value={data.amount} onChange={e => setData({...data, amount: e.target.value})} />
       
-      <button className="w-full bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-3 rounded-lg font-bold transition shadow-lg active:scale-95">
+      <button className="w-full  from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-3 rounded-lg font-bold transition shadow-lg active:scale-95">
         Move Funds
       </button>
     </div>
