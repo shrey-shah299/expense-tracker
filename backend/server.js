@@ -24,8 +24,9 @@ app.use(express.urlencoded({ extended: true }));
 
 require('./models/expense');
 const adminRoutes=require('./routes/adminRoutes')
-
+const expenseRoutes=require('./routes/expenseRoutes')
 app.use('/api', adminRoutes);
+app.use('/api',expenseRoutes);
 
 app.listen(port,()=>{
     console.log(`Server running on http://localhost:${port}`);
