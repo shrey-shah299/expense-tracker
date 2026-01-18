@@ -14,6 +14,10 @@ const expensemodel=new mongoose.Schema({
         required:true,
         enum: ['cash','HDFC','SBI'],
     },
+    month:{
+         type:String,
+         required:true,
+    },
     description:{
         type:String,
         required:true,

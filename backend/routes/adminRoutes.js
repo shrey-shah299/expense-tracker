@@ -5,12 +5,13 @@ const expense=require('../models/expense');
 router.post('/addexpense',async(req,res)=>{
     try{
         console.log("Request body:", req.body);
-        const {spent,amount,mode,description}=req.body;
+        const {spent,amount,mode,month,description}=req.body;
         const expensedata={
             spent,
             amount,
             mode,
             description,
+            month
         }
         const newexpense=new expense(expensedata);
         const savedexpense=await newexpense.save();
