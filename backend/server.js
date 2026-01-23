@@ -6,7 +6,10 @@ const mongoose=require("mongoose");
 
 const app=express()
 const port=3000
-
+app.use(cors({
+  origin: 'https://expense-tracker-zeta-neon-88.vercel.app', // Your Vercel URL
+  credentials: true
+}));
 const connectdb =async()=>{
     try{
      await mongoose.connect(process.env.MONGO_URI)
@@ -18,7 +21,6 @@ const connectdb =async()=>{
     }
 }
 connectdb();
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
