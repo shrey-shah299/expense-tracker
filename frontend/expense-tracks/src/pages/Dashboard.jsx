@@ -29,7 +29,7 @@ function Dashboard() {
     const fetchspent=async()=>{
       try{
         const res = await api.get("/total-spent");
-        const spentbymonth =await api.get("/spent-this-month")
+        const spentbymonth =await api.get("/expenses/current-month")
         const modeRes =await api.get("/spent-by-mode");
         const byMode = {};
       modeRes.forEach(item => {
@@ -52,11 +52,11 @@ function Dashboard() {
     <div className="max-w-7xl mx-auto px-8 lg:px-16 py-4">
     <div className="flex h-screen bg-slate-50">
       {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col ">
         {/* Header */}
 
         {/* Content Area */}
-        <div className="flex-1 overflow-auto">
+        <div className="min-h-screen ">
           <div className="p-8">
             {/* Welcome */}
             <div className="mb-8">
@@ -111,12 +111,12 @@ function Dashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {expenses.map((row, i) => (
+                    {expenses.slice(0, 10).map((row, i) => (
                       <tr key={i} className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
                         <td className="px-6 py-4 text-sm text-slate-900 font-medium">{row.description}</td>
                         <td className="px-6 py-4 text-sm text-slate-600">{row.spent}</td>
                         <td className="px-6 py-4 text-sm font-semibold text-red-600">{row.amount}</td>
-                        <td className="px-6 py-4 text-sm text-slate-600">{row.date}</td>
+                        <td className="px-6 py-4 text-sm text-slate-600">{row.CreatedAt.split('T')[0]}</td>
                         <td className="px-6 py-4 text-sm">
                           <span className={`px-3 py-1 rounded-full text-xs font-semibold`}>
                             {row.mode}

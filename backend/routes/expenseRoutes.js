@@ -15,15 +15,25 @@ router.get('/allexpenses',async(req,res)=>{
 
 router.get('/expenses/current-month',async(req,res)=>{
     try{
-        const currentmonth=new Date().toLocaleString('en,US',{
+        const currentmonth=new Date().toLocaleString('en-US',{
             month:'long',
         });
 
-        const expense=await expense .find({month:currentmonth})
+         const expenses = await expense.find({
+      month: currentmonth,
+    })
         .collation({ locale: 'en', strength: 2 }) //case sensitivity
         .sort({createdAt:-1});
 
-        res.status(200).json(expense);
+        const monthlySpent = expenses.reduce(
+      (sum, item) => sum + item.amount,
+      0
+    );
+
+        res.status(200).json({
+      month: currentmonth,
+      monthlySpent,
+    });
     }
     catch(err){
         console.log(err);
