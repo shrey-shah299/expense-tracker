@@ -3,7 +3,7 @@ import axios from "axios"
 const API_BASE=import.meta.env.VITE_API_URL ||"https://expense-tracker-i45m.onrender.com";
 const api=axios.create({
     baseURL:API_BASE,
-    timeout: 10000,
+    timeout: 60000,
 });
 
 api.interceptors.response.use(
