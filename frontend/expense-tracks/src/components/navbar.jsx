@@ -45,11 +45,11 @@ const Navbar = ({ activeTab, setActiveTab }) => {
         {/* Second Row - Navigation */}
         <div className="bg-white border-t border-black/40">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16">
-            <div className="flex items-center justify-between py-1">
+            <div className="flex items-center justify-between py-2">
               {/* Hamburger Menu and Search */}
               <div className="flex items-center space-x-1 sm:space-x-4">
                 <button
-                  className="bg-white hover:text-gray-600 p-2 rounded"
+                  className="bg-white hover:text-gray-600 p-2 lg:hidden rounded"
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   aria-label="Toggle menu"
                   style={{ fontFamily: "sfUi" }}

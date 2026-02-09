@@ -19,10 +19,9 @@ router.get('/expenses/current-month',async(req,res)=>{
             month:'long',
         });
 
-         const expenses = await expense.find({
-      month: currentmonth,
-    })
-        .collation({ locale: 'en', strength: 2 }) //case sensitivity
+        const expenses = await expense.find({
+      month: { $regex: `^\\s*${currentmonth}\\s*$`, $options: 'i' }
+    })  .collation({ locale: 'en', strength: 2 }) //case sensitivity
         .sort({createdAt:-1});
 
         const monthlySpent = expenses.reduce(

@@ -5,6 +5,7 @@ import Expenseadder from "./Expenseadder";
 import api from "../api";
 import { Navigate, useNavigate } from "react-router-dom";
 
+
 function Dashboard() {
   const navigate=useNavigate();
 
@@ -49,8 +50,8 @@ function Dashboard() {
 
 
   return (
-    <div className="max-w-7xl mx-auto px-8 lg:px-16 py-4">
-    <div className="flex h-screen bg-slate-50">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 py-4 overflow-x-hidden">
+    <div className="flex min-h-screen bg-slate-50">
       {/* Main Content */}
       <div className="flex-1 flex flex-col ">
         {/* Header */}
@@ -99,7 +100,7 @@ function Dashboard() {
                   + Add Expense
                 </button>
               </div>
-              <div className="overflow-x-auto">
+              <div className="hidden md:block overflow-x-auto">
                 <table className="w-full border-collapse">
                   <thead>
                     <tr className="border-b border-slate-200 bg-slate-50">
@@ -111,7 +112,7 @@ function Dashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {expenses.slice(0, 10).map((row, i) => (
+                    {expenses.slice(-10) .map((row, i) => (
                       <tr key={i} className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
                         <td className="px-6 py-4 text-sm text-slate-900 font-medium">{row.description}</td>
                         <td className="px-6 py-4 text-sm text-slate-600">{row.spent}</td>
