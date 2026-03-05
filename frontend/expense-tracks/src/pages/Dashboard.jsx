@@ -112,7 +112,7 @@ function Dashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {expenses.slice(-10) .map((row, i) => (
+                    {expenses .map((row, i) => (
                       <tr key={i} className="border-b border-slate-200 hover:bg-slate-50 transition-colors">
                         <td className="px-6 py-4 text-sm text-slate-900 font-medium">{row.description}</td>
                         <td className="px-6 py-4 text-sm text-slate-600">{row.spent}</td>
