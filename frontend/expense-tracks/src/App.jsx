@@ -8,7 +8,7 @@ import { AuthProvider } from './AuthContext.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import NotFoundError from './pages/NotFoundError.jsx';
 import Login from './pages/Login.jsx';
-import { Analytics } from "@vercel/analytics/react"
+
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import './App.css'
 
@@ -33,7 +33,6 @@ function App() {
 
           <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
-        <Analytics />
       </div>
     </>
   )
