@@ -9,6 +9,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
   const tabs = [
     { label: "Dashboard", path: "/dashboard" },
     { label: "Expense_Form", path: "/expenseform" },
+    { label: "Manage", path: "/manage" },
   ];
 
   const handleTabClick = (tab) => {

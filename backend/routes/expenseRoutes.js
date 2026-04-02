@@ -116,4 +116,35 @@ router.get('/spent-by-mode', async (req, res) => {
   }
 });
 
+router.put('/expense/:id', async (req, res) => {
+  try {
+    const { spent, amount, mode, month, description } = req.body;
+    const updated = await expense.findByIdAndUpdate(
+      req.params.id,
+      { spent, amount, mode, month, description, UpdateAT: Date.now() },
+      { new: true, runValidators: true }
+    );
+    if (!updated) {
+      return res.status(404).json({ error: 'Expense not found' });
+    }
+    res.status(200).json(updated);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.delete('/expense/:id', async (req, res) => {
+  try {
+    const deleted = await expense.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ error: 'Expense not found' });
+    }
+    res.status(200).json({ message: 'Expense deleted successfully' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports=router;
