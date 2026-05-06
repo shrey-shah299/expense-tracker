@@ -7,11 +7,7 @@ const mongoose = require("mongoose");
 const app = express()
 const port = 3000
 app.use(cors({
-  origin: [
-    'https://expense-tracker-zeta-neon-88.vercel.app', // Vercel prod
-    'http://localhost:5173', // Vite dev server
-    'http://localhost:3000',
-  ],
+  origin: 'https://expense-tracker-zeta-neon-88.vercel.app', // Your Vercel URL
   credentials: true
 }));
 const connectdb = async () => {

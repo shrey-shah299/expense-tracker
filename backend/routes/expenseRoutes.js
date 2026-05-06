@@ -5,11 +5,12 @@ const expense=require('../models/expense');
 router.get('/allexpenses',async(req,res)=>{
     try{
         const alltransactions=await expense.find()
-        .sort({createdAt:-1});
+        .sort({CreatedAt:-1});
         res.status(200).json(alltransactions);
     }
     catch(err){
         console.log(err);
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -22,7 +23,7 @@ router.get('/expenses/current-month',async(req,res)=>{
         const expenses = await expense.find({
       month: { $regex: `^\\s*${currentmonth}\\s*$`, $options: 'i' }
     })  .collation({ locale: 'en', strength: 2 }) //case sensitivity
-        .sort({createdAt:-1});
+        .sort({CreatedAt:-1});
 
         const monthlySpent = expenses.reduce(
       (sum, item) => sum + item.amount,
@@ -36,6 +37,7 @@ router.get('/expenses/current-month',async(req,res)=>{
     }
     catch(err){
         console.log(err);
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -43,13 +45,14 @@ router.get('/expenses/mode/:mode',async(req,res)=>{
     try{
         const mode=req.params.mode.toUpperCase();
 
-        const expenses=(await expense .find({mode}))
+        const expenses = await expense.find({mode})
         .collation({ locale: 'en', strength: 2 })
-        .sort({createdAt:-1})
+        .sort({CreatedAt:-1});
         res.status(200).json(expenses);
     }
     catch(err){
         console.log(err);
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -67,6 +70,7 @@ router.get('/total-spent',async(req,res)=>{
     }
     catch(err){
         console.log(err);
+        res.status(500).json({ error: err.message });
     }
 });
 
@@ -82,7 +86,7 @@ router.get('/spent-this-month', async (req, res) => {
     const result = await expense.aggregate([
       {
         $match: {
-          createdAt: { $gte: start, $lt: end }
+          CreatedAt: { $gte: start, $lt: end }
         }
       },
       {
@@ -107,6 +111,27 @@ router.get('/spent-by-mode', async (req, res) => {
           _id: { $toLower: "$mode" },
           total: { $sum: "$amount" }
         }
+      }
+    ]);
+
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+router.get('/expenses-by-month', async (req, res) => {
+  try {
+    const result = await expense.aggregate([
+      {
+        $group: {
+          _id: "$month",
+          total: { $sum: "$amount" },
+          count: { $sum: 1 }
+        }
+      },
+      {
+        $sort: { _id: -1 }
       }
     ]);
 
