@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const API_BASE = import.meta.env.VITE_API_URL || "https://expense-tracker-i45m.onrender.com/api";
+const API_BASE = "https://expense-tracker-i45m.onrender.com/api";
 //import.meta.env.VITE_API_URL || "https://expense-tracker-i45m.onrender.com/api";
 
 const api = axios.create({
