@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Wallet, TrendingDown, ShoppingCart } from "lucide-react";
+import { Wallet, TrendingDown, ShoppingCart, PiggyBank, Landmark, CreditCard } from "lucide-react";
 import SpendingHeatmap from "../components/dashboard/SpendingHeatmap";
 import Expenseadder from "./Expenseadder";
 import api from "../api";
@@ -14,6 +14,7 @@ function Dashboard() {
   const [totalspent ,settotalspent]=useState(0);
   const [spentthismonth ,setSpentthismonth]=useState(0);
   const [bymode ,setbymode]=useState({});
+  const [balances, setBalances] = useState({ cash: 0, hdfc: 0, sbi: 0 });
   useEffect(()=>{
     const fetchexpenses=async()=>{
       try{
@@ -62,6 +63,12 @@ function Dashboard() {
       } catch(err){
         console.error("Error fetching expenses by month:", err);
       }
+      try{
+        const balRes = await api.get("/balance/current");
+        setBalances(balRes);
+      } catch(err){
+        console.error("Error fetching balances:", err);
+      }
     }
     fetchspent();
   },[]);
@@ -94,14 +101,14 @@ function Dashboard() {
               <p className="text-slate-500 mt-1 text-sm">Manage and track your spending</p>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {/* Stats Grid - Spending */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
               {[
                 { icon: Wallet, label: "Total Spent", value: `₹ ${totalspent}`, bgColor: "bg-red-50", textColor: "text-red-600" },
                 { icon: TrendingDown, label: "This Month", value: `₹ ${spentthismonth}`, bgColor: "bg-orange-50", textColor: "text-orange-600" },
-                { icon: ShoppingCart, label: "Cash", value: `₹${bymode.cash || 0}`, bgColor: "bg-blue-50", textColor: "text-blue-600" },
-                { icon: ShoppingCart, label: "HDFC", value: `₹${bymode.hdfc || 0}`, bgColor: "bg-green-50", textColor: "text-green-600" },
-                { icon: ShoppingCart, label: "SBI", value:  `₹${bymode.sbi || 0}` }
+                { icon: ShoppingCart, label: "Cash Spent", value: `₹${bymode.cash || 0}`, bgColor: "bg-blue-50", textColor: "text-blue-600" },
+                { icon: ShoppingCart, label: "HDFC Spent", value: `₹${bymode.hdfc || 0}`, bgColor: "bg-green-50", textColor: "text-green-600" },
+                { icon: ShoppingCart, label: "SBI Spent",  value: `₹${bymode.sbi || 0}`, bgColor: "bg-purple-50", textColor: "text-purple-600" },
               ].map((stat, i) => (
                 <div key={i} className="bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow hover:-translate-y-0.5">
                   <div className="flex items-center justify-between mb-4">
@@ -113,6 +120,68 @@ function Dashboard() {
                   <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
                 </div>
               ))}
+            </div>
+
+            {/* Current Balance Cards */}
+            <div className="mb-8">
+              <h2 className="text-base font-bold text-slate-700 mb-3 flex items-center gap-2">
+                <PiggyBank size={18} className="text-emerald-600" />
+                Current Balances
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                {[
+                  {
+                    icon: Wallet,
+                    label: "Cash Balance",
+                    value: balances.cash || 0,
+                    gradient: "from-emerald-500 to-teal-500",
+                    bg: "bg-emerald-50",
+                    text: "text-emerald-700",
+                    border: "border-emerald-200",
+                    iconBg: "bg-emerald-100",
+                    iconColor: "text-emerald-600",
+                  },
+                  {
+                    icon: Landmark,
+                    label: "HDFC Balance",
+                    value: balances.hdfc || 0,
+                    gradient: "from-blue-500 to-indigo-500",
+                    bg: "bg-blue-50",
+                    text: "text-blue-700",
+                    border: "border-blue-200",
+                    iconBg: "bg-blue-100",
+                    iconColor: "text-blue-600",
+                  },
+                  {
+                    icon: CreditCard,
+                    label: "SBI Balance",
+                    value: balances.sbi || 0,
+                    gradient: "from-violet-500 to-purple-500",
+                    bg: "bg-violet-50",
+                    text: "text-violet-700",
+                    border: "border-violet-200",
+                    iconBg: "bg-violet-100",
+                    iconColor: "text-violet-600",
+                  },
+                ].map((card, i) => (
+                  <div
+                    key={i}
+                    className={`relative bg-white rounded-xl border ${card.border} p-5 hover:shadow-lg transition-all hover:-translate-y-0.5 overflow-hidden`}
+                  >
+                    <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${card.gradient}`} />
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-slate-600 font-medium text-sm">{card.label}</h3>
+                      <div className={`p-2 rounded-lg ${card.iconBg} ${card.iconColor}`}>
+                        <card.icon size={18} />
+                      </div>
+                    </div>
+                    <p className={`text-3xl font-extrabold ${card.value < 0 ? 'text-red-600' : 'text-slate-900'}`}>
+                      {card.value < 0 ? '-' : ''}₹{Math.abs(card.value).toLocaleString('en-IN')}
+                    </p>
+                    <p className={`text-xs font-semibold mt-1.5 ${card.text}`}>Available</p>
+                  </div>
+                ))}
+              </div>
             </div>
               <div className="lg:col-span-2 bg-white rounded-lg border border-slate-200 p-6 hover:shadow-lg transition-shadow">
                 <h2 className="text-lg font-bold text-slate-900 mb-6">Spending Trend</h2>

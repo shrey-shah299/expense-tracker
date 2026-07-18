@@ -8,6 +8,7 @@ import { AuthProvider } from './AuthContext.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import NotFoundError from './pages/NotFoundError.jsx';
 import ManageExpenses from './pages/ManageExpenses.jsx';
+import Balance from './pages/Balance.jsx';
 import Login from './pages/Login.jsx';
 
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
@@ -30,6 +31,7 @@ function App() {
           <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="/expenseform" element={<Expenseadder/>}/>
           <Route path="/manage" element={<ProtectedRoute><ManageExpenses /></ProtectedRoute>} />
+          <Route path="/balance" element={<ProtectedRoute><Balance /></ProtectedRoute>} />
 
           <Route path="/404" element={<NotFoundError />} />
 

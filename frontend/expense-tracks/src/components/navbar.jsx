@@ -10,6 +10,7 @@ const Navbar = ({ activeTab, setActiveTab }) => {
     { label: "Dashboard", path: "/dashboard" },
     { label: "Expense_Form", path: "/expenseform" },
     { label: "Manage", path: "/manage" },
+    { label: "Balance", path: "/balance" },
   ];
 
   const handleTabClick = (tab) => {

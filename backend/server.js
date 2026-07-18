@@ -25,10 +25,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 require('./models/expense');
+require('./models/balance');
 const adminRoutes = require('./routes/adminRoutes')
 const expenseRoutes = require('./routes/expenseRoutes')
+const balanceRoutes = require('./routes/balanceRoutes')
 app.use('/api', adminRoutes);
 app.use('/api', expenseRoutes);
+app.use('/api', balanceRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
